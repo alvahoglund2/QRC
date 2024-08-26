@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual Environments
+env/
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# IDEs/Editors
+.idea/
+.vscode/
+.ipynb_checkpoints
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Dependency Files
+Pipfile.lock
+poetry.lock
+
+# Logs
+*.log
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# Ignore Python bytecode files and directories
+__pycache__/
+*.py[cod]
