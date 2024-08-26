@@ -117,12 +117,15 @@ class Task_runner:
         self,
         target_func_name,
         target_param: Optional[Any] = None,
-        warmup: int = 100,
+        warmup: Optional[int] = None,
     ) -> Tuple[float, float, np.ndarray, np.ndarray]:
         """
         Tests the reservoir with a target function.
         The target function is specified with a name and a parameter, all possible target functions can be found in Target_function.py.
         """
+        # Set warmup value if not specified
+        if warmup is None:
+            warmup = self.steps // 10
 
         # Get target function
         target = target_func.set_target(
