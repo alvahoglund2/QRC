@@ -176,3 +176,9 @@ class Task_runner:
         nmse = np.mean((predictions.flatten() - y_target) ** 2)
         variance = np.var(y_target)
         return nmse / variance if variance != 0 else 0
+
+    def get_target(self, target_func_name="Time_delay", target_param=None):
+        target = target_func.set_target(
+            target_func_name, target_param, self.t_range, self.input_func
+        )
+        return target
