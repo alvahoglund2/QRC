@@ -4,20 +4,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import time
+from typing import Callable, List, Optional, Tuple
 
 
 class Qreservoir:
     def __init__(
         self,
-        reservoir_input,
-        t_range,
-        seed=None,
-        evolution_rate=1,
-        input_weight_factor=1,
-        internal_weight_factor_o=1,
-        internal_weight_factor_c=1,
-        internal_weight_factor_e=1,
-    ):
+        reservoir_input: Callable[[float], float],
+        t_range: List[float],
+        seed: Optional[int] = None,
+        evolution_rate: float = 1,
+        input_weight_factor: float = 1,
+        internal_weight_factor_o: float = 1,
+        internal_weight_factor_c: float = 1,
+        internal_weight_factor_e: float = 1,
+    ) -> None:
         """
         Initializes a quantum reservoir object with 4 quantum dots (QD) and 4 leads.
         An input function is fed into the reservoir by changing the chemical potential.
@@ -68,7 +69,7 @@ class Qreservoir:
         self.kerns = []
         self.I = None
 
-    def create_system(self):
+    def create_system(self) -> qmeq.Builder:
         """
         Defines parameters and creates a QMEQ system object with 4 quantum dots and 4 leads.
         The system is modelled with the Hamiltonian:
@@ -99,8 +100,8 @@ class Qreservoir:
         w1_in = -1
         w2_in = -2
         w3_in = 4
-        
-        self.w_in = np.array([w0_in, w1_in, w2_in, w3_in])* self.input_weight_factor
+
+        self.w_in = np.array([w0_in, w1_in, w2_in, w3_in]) * self.input_weight_factor
 
         # --------- Lead and tunneling parameters, H_leads and H_tunneling ------------
 
@@ -209,7 +210,7 @@ class Qreservoir:
 
         return system
 
-    def get_mu_at_t(self, t):
+    def get_mu_at_t(self, t: float) -> Tuple[float, float, float, float]:
         """
         Calculates the chemical potential at time t based on the input function
         """
@@ -221,7 +222,7 @@ class Qreservoir:
         mu3 = y * w_in[3]
         return mu0, mu1, mu2, mu3
 
-    def get_I_from_phi(self, phi, t):
+    def get_I_from_phi(self, phi: np.ndarray, t: float) -> np.ndarray:
         """
         Calculates the current at time t based on the state phi
         """
@@ -242,7 +243,7 @@ class Qreservoir:
 
         return np.array(self.system.current)
 
-    def get_kern_at_t(self, t):
+    def get_kern_at_t(self, t: float) -> np.ndarray:
         """
         Calculates the kernel at time t based on the chemical potential
         """
@@ -267,7 +268,7 @@ class Qreservoir:
         self.solve_time += solve_end_time - solve_start_time
         return kern
 
-    def ode(self, t, phi):
+    def ode(self, t: float, phi: np.ndarray) -> np.ndarray:
         """
         Calculates the gradient of the state at time t and rescales it with the evolution rate
         The ode to solve is dphi/dt = kern * phi
@@ -276,7 +277,7 @@ class Qreservoir:
         dphi_dt = np.dot(kern, phi)
         return dphi_dt
 
-    def get_phi_t(self):
+    def get_phi_t(self) -> np.ndarray:
         """
         Solves the system for the given time range, returns the state (density matrix) at each time step
         The initial state is the stationary state with the chemical potential at time 0
@@ -309,7 +310,7 @@ class Qreservoir:
         print("Average time to solve system", self.solve_time / solution.nfev)
         return phi_t
 
-    def get_I_t(self):
+    def get_I_t(self) -> np.ndarray:
         """ "
         Calculates the current at each time step based on the state at each time step
         """
@@ -323,7 +324,7 @@ class Qreservoir:
         self.I = I_all
         return I_all
 
-    def get_I_stat_t(self):
+    def get_I_stat_t(self) -> np.ndarray:
         """
         Calculates the stationary current for the system at each time step using QMEQ function
         """

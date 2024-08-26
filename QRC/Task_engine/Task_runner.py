@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+from typing import Optional, Tuple, Any
 
 sys.path.append("..\\")
 from Qreservoir import Qreservoir
@@ -11,18 +12,18 @@ import Target_function as target_func
 class Task_runner:
     def __init__(
         self,
-        input_func_name,
-        evolution_rate,
-        reservoir_seed=None,
-        input_func_seed=None,
-        V=1,
-        steps=1000,
-        input_weight_factor=1,
-        internal_weight_factor_o=1,
-        internal_weight_factor_c=1,
-        internal_weight_factor_e=1,
-        training_split=2 / 3,
-        regularization_term=1e-6,
+        input_func_name: str,
+        evolution_rate: float,
+        reservoir_seed: Optional[int] = None,
+        input_func_seed: Optional[int] = None,
+        V: int = 1,
+        steps: int = 1000,
+        input_weight_factor: float = 1.0,
+        internal_weight_factor_o: float = 1.0,
+        internal_weight_factor_c: float = 1.0,
+        internal_weight_factor_e: float = 1.0,
+        training_split: float = 2 / 3,
+        regularization_term: float = 1e-6,
     ):
         """
         Initializes a Task_runner object. The task_runner object contains a reservoir and input function, giving a current.
@@ -30,14 +31,14 @@ class Task_runner:
         The Task_runner object can then be used to test the reservoir for different target functions.
 
         -  input_func_name specifies the input function type, all types can be found in class input_function.
-        -  evolution_rate is the rate at which the system evolves, the rate rescales the kernel/liouvillian. In the special case of 0, the system calculates the stationary current.
+        -  evolution_rate is the rate at which the system evolves, the rate rescales the kernel/Liouvillian. In the special case of 0, the system calculates the stationary current.
         -  reservoir_seed is the seed for the random generator of the reservoir parameters.
         -  input_func_seed is the seed for the random generator of the input function.
         -  V is the constant used for time multiplexing.
-        -  steps is the number of timesteps where the current is sampled.
+        -  steps is the number of time steps where the current is sampled.
         -  input_weight_factor is the scale of the input weights connecting the input function and chemical potentials.
         -  internal_weight_factor_o is the weight of the internal weights, corresponding to the interaction between quantum dots.
-        -  internal_weight_factor_c is the weight of the internal weights, corresponding to the coloumb interaction between quantum dots.
+        -  internal_weight_factor_c is the weight of the internal weights, corresponding to the coulomb interaction between quantum dots.
         -  internal_weight_factor_e is the weight of the internal weights, corresponding to the energy levels of the quantum dots.
         -  training_split is the fraction of the data that is used for training the readout.
         -  regularization_term is the regularization term used in the readout layer
@@ -71,7 +72,7 @@ class Task_runner:
         else:
             self.I = self.get_current(stationary=False, V=V)
 
-    def get_current(self, stationary=False, V=1):
+    def get_current(self, stationary: bool = False, V: int = 1) -> np.ndarray:
         """
         Creates the reservoir and generates the current for the input function.
         V is the constant used for time multiplexing/virtual nodes. For each time step, the current is sampled V times, giving V*nbr_dots readout weights.
@@ -112,7 +113,12 @@ class Task_runner:
         I_rescaled = I_extended / max_val
         return I_rescaled
 
-    def run_test(self, target_func_name="Time_delay", target_param=None, warmup=100):
+    def run_test(
+        self,
+        target_func_name,
+        target_param: Optional[Any] = None,
+        warmup: int = 100,
+    ) -> Tuple[float, float, np.ndarray, np.ndarray]:
         """
         Tests the reservoir with a target function.
         The target function is specified with a name and a parameter, all possible target functions can be found in Target_function.py.
@@ -138,7 +144,7 @@ class Task_runner:
 
         return ma, nmse, predictions, test_target
 
-    def split_data(self, data):
+    def split_data(self, data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
         Splits the data into train and test data
         """
@@ -146,7 +152,9 @@ class Task_runner:
         test_data = data[self.split_point :]
         return training_data, test_data
 
-    def memory_accuracy_measurement(self, predictions, y_target):
+    def memory_accuracy_measurement(
+        self, predictions: np.ndarray, y_target: np.ndarray
+    ) -> float:
         """
         Calculates the memory accuracy of the prediction
         """
@@ -158,7 +166,7 @@ class Task_runner:
         ma = (cov_pred_target**2) / (var_pred * var_target)
         return ma
 
-    def nmse(self, predictions, y_target):
+    def nmse(self, predictions: np.ndarray, y_target: np.ndarray) -> float:
         """
         Calculates the normalized mean squared error of the prediction
         """

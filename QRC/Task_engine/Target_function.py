@@ -1,7 +1,13 @@
 import numpy as np
+from typing import Callable, Dict, Any
 
 
-def set_target(target_func_name, target_param, t_range, input_func):
+def set_target(
+    target_func_name: str,
+    target_param: Any,
+    t_range: np.ndarray,
+    input_func: Callable[[np.ndarray], np.ndarray],
+) -> np.ndarray:
     """
     Finds the target function for the specified target function name
     """
@@ -22,10 +28,17 @@ def set_target(target_func_name, target_param, t_range, input_func):
     return target_funcs[target_func_name]()
 
 
-def narma_n(t_range, input_func, n, alfa=0.3, beta=0.01, gamma=1.5, delta=0.1):
+def narma_n(
+    t_range: np.ndarray,
+    input_func: Callable[[np.ndarray], np.ndarray],
+    n: int,
+    alfa: float = 0.3,
+    beta: float = 0.01,
+    gamma: float = 1.5,
+    delta: float = 0.1,
+) -> np.ndarray:
     """
     Generates a "Non-linear autoregressive moving average" (NARMA) target function.
-
     """
     # Defing the time range for generating the target function. Need to add t_range_init to initialize the function
     steps_init = len(t_range) - 1
@@ -60,7 +73,9 @@ def narma_n(t_range, input_func, n, alfa=0.3, beta=0.01, gamma=1.5, delta=0.1):
     return target
 
 
-def time_delay(t_range, input_func, delay):
+def time_delay(
+    t_range: np.ndarray, input_func: Callable[[np.ndarray], np.ndarray], delay: int
+) -> np.ndarray:
     """
     Generates a time delay target function, where the target is the input delayed by delay
     """
@@ -82,7 +97,11 @@ def time_delay(t_range, input_func, delay):
     return target
 
 
-def prediction(t_range, input_func, prediction_steps):
+def prediction(
+    t_range: np.ndarray,
+    input_func: Callable[[np.ndarray], np.ndarray],
+    prediction_steps: int,
+) -> np.ndarray:
     """
     Generates target function that is prediction_steps ahead of the input function, where the target is the input shifted by prediction_steps
     """

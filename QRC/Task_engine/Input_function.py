@@ -1,9 +1,10 @@
 import numpy as np
 from scipy.interpolate import interp1d
 from reservoirpy.datasets import mackey_glass
+from typing import Callable, Optional, Dict, Any
 
 
-def set_input_func(input_func_name, **kwargs):
+def set_input_func(input_func_name: str, **kwargs: Any) -> Callable:
     """
     Finds the input function for the specified input function name.
     Optional to add additional keyword arguments for the input function.
@@ -24,13 +25,13 @@ def set_input_func(input_func_name, **kwargs):
 
 
 def random_sin(
-    seed=None,
-    t_def=np.linspace(-1, 2, 3000),
-    numb_terms=1000,
-    freq_min=0.1,
-    freq_max=300,
-    max_val=1,
-):
+    seed: Optional[int] = None,
+    t_def: np.ndarray = np.linspace(-1, 2, 3000),
+    numb_terms: int = 1000,
+    freq_min: float = 0.1,
+    freq_max: float = 300,
+    max_val: float = 1,
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Generates a random function by summing sine functions with random amplitudes, frequencies and phases
     """
@@ -57,9 +58,9 @@ def random_sin(
 
 
 def sin3(
-    seed=None,
-    t_def=np.linspace(-1, 2, 3000),
-):
+    seed: Optional[int] = None,
+    t_def: np.ndarray = np.linspace(-1, 2, 3000),
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Generates a function by summing sine functions with different amplitudes, frequencies and phases
     """
@@ -70,7 +71,8 @@ def sin3(
     b = 3.73
     c = 4.11
     T = 1
-    # Ctreate the function
+
+    # Create the function
     result = (
         np.sin(2 * np.pi * a * t_def / T)
         * np.sin(2 * np.pi * b * t_def / T)
@@ -86,11 +88,11 @@ def sin3(
 
 
 def random_box(
-    seed=None,
-    t_def=np.linspace(-1, 2, 18000),
-    max_val=1,
-    box_points=5,
-):
+    seed: Optional[int] = None,
+    t_def: np.ndarray = np.linspace(-1, 2, 18000),
+    max_val: float = 1,
+    box_points: int = 5,
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Generates a random function by randomizing values and smoothing with a box average
     """
@@ -114,10 +116,10 @@ def random_box(
 
 
 def random_smooth(
-    seed=None,
-    t_def=np.linspace(-1, 2, 500),
-    max_val=1,
-):
+    seed: Optional[int] = None,
+    t_def: np.ndarray = np.linspace(-1, 2, 500),
+    max_val: float = 1,
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Generates a random function by randomizing values and smoothing with a box average
     """
@@ -137,9 +139,9 @@ def random_smooth(
 
 
 def random_white(
-    seed=None,
-    t_def=np.linspace(-1, 2, 3000),
-):
+    seed: Optional[int] = None,
+    t_def: np.ndarray = np.linspace(-1, 2, 3000),
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Generates a random function of white noise
     """
@@ -160,7 +162,9 @@ def random_white(
     return result_cont
 
 
-def sin(seed=None, period_scale=0.1):
+def sin(
+    seed: Optional[int] = None, period_scale: float = 0.1
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Returns a sine function with a specified period scaling.
     """
@@ -171,7 +175,9 @@ def sin(seed=None, period_scale=0.1):
     return sin_function
 
 
-def mackey_glass_func(timesteps=2510, tau=17, seed=None):
+def mackey_glass_func(
+    timesteps: int = 2510, tau: int = 17, seed: Optional[int] = None
+) -> Callable[[np.ndarray], np.ndarray]:
     """
     Generates a Mackey-Glass time series
     """
