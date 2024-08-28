@@ -63,8 +63,8 @@ class Timing_task:
         """
         Returns the target function for the timing task, where the target is a peak a certain delay (timer) after the step function
         """
-        pulse_duration: int = 10  # The width of the peak
-        target_arr: np.ndarray = np.zeros(self.steps)
+        pulse_duration = 10  # The width of the peak
+        target_arr = np.zeros(self.steps)
         target_arr[
             self.switch_location + timer : self.switch_location + timer + pulse_duration
         ] = 1
