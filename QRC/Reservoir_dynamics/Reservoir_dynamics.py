@@ -194,7 +194,7 @@ def plot_states_prob(reservoir: Qreservoir) -> None:
             axs[i + 1].plot(reservoir.t_range, reservoir.phi_t[j, :], label=i)
             axs[i + 1].set_xlabel("Time")
             axs[i + 1].set_ylabel("Probability")
-        axs[i + 1].set_title(f"{i} charge")
+        axs[i + 1].set_title(f"{i} charge states")
 
     plt.suptitle("Probability of many body states over time")
     plt.tight_layout()
