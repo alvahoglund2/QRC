@@ -11,7 +11,6 @@ def set_input_func(input_func_name: str, **kwargs: Any) -> Callable:
     """
     input_funcs = {
         "Random_sin": random_sin,
-        "Random_box": random_box,
         "Random_smooth": random_smooth,
         "Random_white": random_white,
         "Sin": sin,
@@ -31,7 +30,7 @@ def random_sin(
     freq_min: float = 0.1,
     freq_max: float = 300,
     max_val: float = 1,
-) -> Callable[[np.ndarray], np.ndarray]:
+) -> Callable[[float], float]:
     """
     Generates a random function by summing sine functions with random amplitudes, frequencies and phases
     """
@@ -85,34 +84,6 @@ def sin3(
     # Interpolate the function
     result_cont = interp1d(t_def, result_norm, kind="cubic")
     return result_cont
-
-
-def random_box(
-    seed: Optional[int] = None,
-    t_def: np.ndarray = np.linspace(-1, 2, 18000),
-    max_val: float = 1,
-    box_points: int = 5,
-) -> Callable[[np.ndarray], np.ndarray]:
-    """
-    Generates a random function by randomizing values and smoothing with a box average
-    """
-    # If seed is specified, set the seed for reproducibility
-    if seed != None:
-        np.random.seed(seed)
-
-    # Randomize values for the function
-    steps = len(t_def)
-    func = np.zeros(steps)
-
-    for i in range(steps):
-        func[i] = np.random.uniform(0, max_val)
-
-    # Smooth the function with a box average
-    box = np.ones(box_points) / box_points
-    func_smooth = np.convolve(func, box, mode="same")
-    func_cont = interp1d(t_def, func_smooth, kind="cubic")
-
-    return func_cont
 
 
 def random_smooth(
