@@ -27,9 +27,8 @@ class Qreservoir:
 
         split_points: Used to split the density matrix (phi_t) into components corresponding to different charges
         internal_weight_factor_e: The weight determining in what range the QD energies are initialized in
-        internal_weight_factor_o: The weight determining in what range the QD coulomb interaction are initialized in
-        internal_weight_factor_c: The weight determining in what range the tunneling amplitudes between QDs are initialized in
-        The weight of the internal weights, corresponding to the interaction between quantum dots
+        internal_weight_factor_c: The weight determining in what range the QD coulomb interaction are initialized in
+        internal_weight_factor_o: The weight determining in what range the tunneling amplitudes between QDs are initialized in
         input_weight_factor: The scale of the input weights connecting the input function and chemical potentials
 
         reservoir_input: A time dependent function that is fed into the reservoir
