@@ -6,7 +6,7 @@ def set_target(
     target_func_name: str,
     target_param: Any,
     t_range: np.ndarray,
-    input_func: Callable[[np.ndarray], np.ndarray],
+    input_func: Callable[[float], float],
 ) -> np.ndarray:
     """
     Finds the target function for the specified target function name
@@ -30,7 +30,7 @@ def set_target(
 
 def narma_n(
     t_range: np.ndarray,
-    input_func: Callable[[np.ndarray], np.ndarray],
+    input_func: Callable[[float], float],
     n: int,
     alfa: float = 0.3,
     beta: float = 0.01,
@@ -74,7 +74,7 @@ def narma_n(
 
 
 def time_delay(
-    t_range: np.ndarray, input_func: Callable[[np.ndarray], np.ndarray], delay: int
+    t_range: np.ndarray, input_func: Callable[[float], float], delay: int
 ) -> np.ndarray:
     """
     Generates a time delay target function, where the target is the input delayed by delay
@@ -99,7 +99,7 @@ def time_delay(
 
 def prediction(
     t_range: np.ndarray,
-    input_func: Callable[[np.ndarray], np.ndarray],
+    input_func: Callable[[float], float],
     prediction_steps: int,
 ) -> np.ndarray:
     """
