@@ -115,7 +115,7 @@ class Task_runner:
 
     def run_test(
         self,
-        target_func_name,
+        target_func_name: str,
         target_param: Optional[Any] = None,
         warmup: Optional[int] = None,
     ) -> Tuple[float, float, np.ndarray, np.ndarray]:
