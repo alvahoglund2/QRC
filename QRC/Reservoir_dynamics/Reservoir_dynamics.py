@@ -146,8 +146,10 @@ def plot_charge_prob(reservoir: Qreservoir) -> None:
 
     # Plot charge probabilities over time
     axs[1].set_title("Charge probabilities over time")
-    for i in range(5):
-        axs[1].plot(reservoir.t_range, charge_prob_t[i, :], label=str(i))
+    for i in range(2):
+        axs[1].plot(reservoir.t_range, charge_prob_t[i, :], label=f"{i} charge")
+    for i in range(2, 5):
+        axs[1].plot(reservoir.t_range, charge_prob_t[i, :], label=f"{i} charges")
     axs[1].plot(
         reservoir.t_range,
         reservoir.reservoir_input(reservoir.t_range),
@@ -155,7 +157,7 @@ def plot_charge_prob(reservoir: Qreservoir) -> None:
         label="Input",
     )
 
-    axs[1].legend()
+    axs[1].legend(loc="upper right")
     axs[1].set_xlabel("Time")
     axs[1].set_ylabel("Probability")
 
@@ -166,7 +168,7 @@ def plot_charge_prob(reservoir: Qreservoir) -> None:
         axs[2].plot(reservoir.t_range, charge_dist_t[i, :], label=f"QD{i+1}")
     axs[2].set_ylabel("Probability of charge in QD")
     axs[2].set_xlabel("Time")
-    axs[2].legend()
+    axs[2].legend(loc="upper right")
     axs[2].set_title("Charge distribution in the system")
 
     fig.tight_layout()
