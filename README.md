@@ -31,3 +31,7 @@ git clone https://github.com/alvahoglund2/QRC.git
 cd QRC
 
 pip install -r requirements.txt
+
+For more information about installation of QMEQ, see: 
+
+https://github.com/gedaskir/qmeq/blob/master/INSTALL.md

@@ -4,4 +4,5 @@ reservoirpy
 matplotlib
 setuptools
 cython
+jupyter
 QMEQ
