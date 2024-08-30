@@ -306,7 +306,7 @@ class Qreservoir:
         print("Time to solve ode: ", ode_end_time - ode_start_time)
         print("Number of iterations (nfev): ", solution.nfev)
         print("Total time to solve system: ", self.solve_time)
-        print("Average time to solve system", self.solve_time / solution.nfev)
+        print("Average time per iteration", self.solve_time / solution.nfev)
         return phi_t
 
     def get_I_t(self) -> np.ndarray:
