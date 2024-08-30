@@ -27,5 +27,7 @@ Installation
 To install the QRC package, clone the repository and install the required dependencies:
 
 git clone https://github.com/alvahoglund2/QRC.git
+
 cd QRC
+
 pip install -r requirements.txt
